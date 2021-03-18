@@ -1,9 +1,16 @@
 import './App.css';
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
+import Todo from './Todo';
+import db from './firebase';
 import {Button, InputLabel, FormControl, Input} from '@material-ui/core';
 function App() {
-const [todos, setTodos]=useState(['Take Dogs for a walk','Take the rubbish out', 'Quazi wants to livestream today']);
+const [todos, setTodos]=useState([]);
 const [input, setInput]=useState('');
+useEffect(() => {
+   db.collection('todos').onSnapshot(snapshot =>{
+     setTodos(snapshot.docs.map(doc => doc.data().todo))
+   })
+}, []);
 
 const addTodo= (event) =>{
   //this will fire off when we click the button
@@ -21,8 +28,9 @@ return (
 </FormControl>
       <ul>
         {todos.map(todo =>(
-          <li>{todo}</li>
-        ))}
+        <Todo text={todo} />
+
+))}
          
 
       </ul>
