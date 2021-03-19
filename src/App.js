@@ -7,9 +7,12 @@ function App() {
 const [todos, setTodos]=useState([]);
 const [input, setInput]=useState('');
 useEffect(() => {
-   db.collection('todos').onSnapshot(snapshot =>{
-     setTodos(snapshot.docs.map(doc => doc.data().todo))
-   })
+
+db.collection('todos').onSnapshot(snapshot =>{
+  setTodos(snapshot.docs.map(doc => doc.data().todo))
+})
+
+
 }, []);
 
 const addTodo= (event) =>{
